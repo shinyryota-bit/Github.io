@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- 2. كود التحقق من جوجل وأرشفة الموقع (SEO) -->
-    <meta name="google-site-verification" content="b_5BshaD5Op46jOq1JwhLZEGnVux6bB7G8t36TGN1ZQ" />
+<meta name="google-site-verification" content="b_5BshaD5Op46jOq1JwhLZEGnVux6bB7G8t36TGN1ZQ" />
     <title>ظل كاتب</title>
     <meta name="description" content="منصة ظل كاتب هي الافضل للهواة من قراء وكتاب للاستمتاع بنشر وتبادل الروايات والاراء.">
     
@@ -23,6 +23,9 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
     
     <style>
         /* ==================== الطابع البصري الفخم: أسود حالك وذهب متوهج ==================== */
@@ -360,6 +363,15 @@
     transform: scale(1.1);
 }
 
+:root {
+    --global-font-size: 1.2rem; /* القيمة الافتراضية */
+}
+
+body {
+    font-size: var(--global-font-size);
+    transition: font-size 0.3s ease; /* لنعومة التغيير */
+}
+
     </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
 </head>
@@ -427,13 +439,17 @@
             
             <input type="text" id="chat-text-input" class="input-element" style="flex: 1; padding: 12px; height: 44px; box-sizing: border-box; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 183, 3, 0.2); border-radius: 12px; color: #fff;" placeholder="اكتب مراجعة أو رسالة سريعة...">
             
-            <button type="button" class="btn-neon-action" style="background: #ffb703; border: none; border-radius: 12px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 12px rgba(255, 183, 3, 0.5); transition: all 0.3s ease; padding: 0;" 
-                    onclick="executeSendChatMessage()" 
-                    onmouseover="this.style.background='#ffc93c'; this.style.boxShadow='0 0 22px #ffb703';" 
-                    onmouseout="this.style.background='#ffb703'; this.style.boxShadow='0 0 12px rgba(255, 183, 3, 0.5)';"
-                    title="إرسال">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#121212" stroke="#121212" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-            </button>
+<button type="button" class="btn-neon-action" 
+        style="background: #ffb703; border: none; border-radius: 12px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 12px rgba(255, 183, 3, 0.5); transition: all 0.3s ease; padding: 0;" 
+        onclick="executeSendChatMessage()" 
+        onmouseover="this.style.background='#ffc93c'; this.style.boxShadow='0 0 22px #ffb703';" 
+        onmouseout="this.style.background='#ffb703'; this.style.boxShadow='0 0 12px rgba(255, 183, 3, 0.5)';"
+        title="إرسال">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 2px;">
+        <line x1="22" y1="2" x2="11" y2="13"></line>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+    </svg>
+</button>
             
         </div>
     </div>
@@ -473,27 +489,39 @@
     <textarea id="profile-input-bio" class="input-element" rows="3" placeholder="اكتب مقتبساً أو نبذة قصيرة عن أسلوبك الأدبي..."></textarea>
 </div>
 
-<!-- زر الحفظ المطور بأيقونة السحابة البرمجية الفخمة -->
-<button class="btn-neon-action" style="width: 100%; margin-bottom: 12px; background: #ffb703 !important; color: #000000 !important; border: none !important; border-radius: 8px; font-weight: bold; font-size: 1.05rem; padding: 14px; cursor: pointer; box-shadow: 0 0 15px #ffb703 !important; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="saveProfileChangesData()" onmouseover="this.style.boxShadow='0 0 25px #ffb703'" onmouseout="this.style.boxShadow='0 0 15px #ffb703'">
-    حفظ التعديلات والملف الشخصي <i class="fa-solid fa-cloud-arrow-up" style="margin-right: 5px; font-size: 1.1rem;"></i>
-</button>
+<div style="display: flex; gap: 10px; width: 100%;">
+    
+    <button class="btn-neon-action" style="flex: 1; background: #ffb703 !important; color: #000000 !important; border: none !important; border-radius: 8px; font-weight: bold; font-size: 0.95rem; padding: 10px; cursor: pointer; box-shadow: 0 0 15px #ffb703 !important; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="saveProfileChangesData()" onmouseover="this.style.boxShadow='0 0 25px #ffb703'" onmouseout="this.style.boxShadow='0 0 15px #ffb703'">
+        حفظ التعديلات <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1rem;"></i>
+    </button>
 
-<button class="btn-neon-action" style="width:100%; background:rgba(255,61,0,0.1); color:#ff3d00; box-shadow:none;" onclick="triggerUserLogout()">تسجيل الخروج من الحساب</button>
-            </div>
+    <button class="btn-neon-action" style="flex: 1; background: rgba(255,61,0,0.1); color: #ff3d00; border: none; border-radius: 8px; font-weight: bold; font-size: 0.95rem; padding: 10px; cursor: pointer; box-shadow: none; transition: all 0.3s ease;" onclick="triggerUserLogout()">
+        تسجيل الخروج
+    </button>
+
+</div>
         </section>
 
-        <section id="view-novel-details" class="page-view">
-            <div style="background:var(--bg-solid-card); padding:20px; border-radius:20px; border:1px solid rgba(255,183,3,0.15); margin-bottom:20px;">
-                <h2 id="det-novel-title" style="color:var(--text-pure-white, #fff); margin-bottom:4px;">عنوان الرواية</h2>
-                <p id="det-novel-author" style="color:var(--accent-gold-neon); font-size:0.9rem; margin-bottom:10px;">الكاتب: </p>
-                <!-- حاوية فارغة مخصصة لضخ شرائح التصنيفات المضيئة وتحمل نفس خط الموقع -->
-<div id="det-novel-categories-box" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; margin-bottom: 12px; font-family: inherit;"></div>
-                <p id="det-novel-desc" style="color:var(--text-muted-gray); font-size:0.9rem; line-height:1.6; margin-bottom:15px; white-space:pre-line;">الملخص والتمهيد...</p>
-                <div style="border-top:1px solid var(--border-soft, rgba(255,255,255,0.05)); padding-top:15px;">
-                    <h4 style="margin-bottom:10px; color:var(--text-pure-white, #fff);">تقييم الرواية العام: <span id="det-novel-rating-num" style="color:var(--accent-gold-neon)">0 / 5</span></h4>
-                    <div class="star-rating-bar" id="novel-global-stars-bar"></div>
-                </div>
-            </div>
+<section id="view-novel-details" class="page-view">
+    <div style="background:var(--bg-solid-card); padding:20px; border-radius:20px; border:1px solid rgba(255,183,3,0.15); margin-bottom:20px;">
+        
+        <h2 id="det-novel-title" style="color:var(--text-pure-white, #fff); margin-bottom:4px;">عنوان الرواية</h2>
+        <p id="det-novel-author" style="color:var(--accent-gold-neon); font-size:0.9rem; margin-bottom:10px;">الكاتب: </p>
+
+        <!-- حاوية التصنيفات -->
+        <div id="det-novel-categories-box" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; font-family: inherit;"></div>
+        
+        <!-- الوصف -->
+        <p id="det-novel-desc" style="color:var(--text-muted-gray); font-size:0.9rem; line-height:1.6; margin-bottom:15px; white-space:pre-line;"></p>
+
+        <!-- التاريخ في موقعه الجديد -->
+        <p id="det-novel-date" style="color: var(--accent-gold-neon); font-size: 0.85rem; margin-top: -10px; margin-bottom: 15px;"></p>
+
+        <div style="border-top:1px solid var(--border-soft, rgba(255,255,255,0.05)); padding-top:15px;">
+            <h4 style="margin-bottom:10px; color:var(--text-pure-white, #fff);">تقييم الرواية العام: <span id="det-novel-rating-num" style="color:var(--accent-gold-neon)">0 / 5</span></h4>
+            <div class="star-rating-bar" id="novel-global-stars-bar"></div>
+        </div>
+    </div>
             <div class="section-title">فصول الرواية المنشورة</div>
             <div style="display:flex; flex-direction:column; gap:8px;" id="det-chapters-list-box"></div>
             
@@ -793,12 +821,7 @@
         <textarea id="create-chapter-body" class="input-element" rows="12" maxlength="30000" placeholder="ابدأ بسرد أحداث فصلك الروائي بعمق..." oninput="handleChapterCounterText()"></textarea>
         <small id="chapter-chars-counter" style="color:var(--text-muted-gray); margin-top:4px; display:block; text-align:left;">0 / 30,000 حرف</small>
     </div>
-    <div class="form-group-custom">
-        <label>إرفاق مشاهد وصور الفصل التوضيحية (الحد الأقصى 4 صور للمشهد)</label>
-        <input type="file" id="create-chapter-images-input" class="input-element" multiple accept="image/*">
-        <small style="color:var(--text-muted-gray); display:block; margin-top:4px;">يمكنك تحديد حتى 4 صور دفعة واحدة مباشرة من الهاتف.</small>
-    </div>
-    <div id="chapter-upload-spinner" class="cloud-upload-spinner">⏳ جاري رفع المشاهد المرفقة وصياغة الفصل سحابياً... يرجى الانتظار ثوانٍ معدودة.</div>
+        <div id="chapter-upload-spinner" class="cloud-upload-spinner">⏳ جاري رفع المشاهد المرفقة وصياغة الفصل سحابياً... يرجى الانتظار ثوانٍ معدودة.</div>
     <button class="btn-neon-action" style="width:100%" onclick="executeSaveNewChapterToCloud()">🚀 نشر وتعميد الفصل سحابياً</button>
 </section>
 
@@ -1199,52 +1222,63 @@ function refreshSideDrawerLinksLayout() {
         // ==================== نظام مظهر الموقع (أسود/أبيض) وخطوط القراءة الإضافية - يخص حساب المستخدم محلياً فقط ====================
         const APPEARANCE_STORAGE_KEY = "shadowKatebAppearanceSettings";
 
-        function applyAppearanceSettings(theme, font) {
-            // إزالة الكلاسات السابقة أولاً ثم تطبيق المختار
-            document.body.classList.remove("theme-light");
-            document.body.classList.remove("font-system", "font-amiri");
+function applyAppearanceSettings(theme, font, fontSize) {
+    // إزالة الكلاسات السابقة
+    document.body.classList.remove("theme-light", "font-system", "font-amiri");
 
-            if (theme === "light") {
-                document.body.classList.add("theme-light");
-            }
-            if (font === "system") {
-                document.body.classList.add("font-system");
-            } else if (font === "amiri") {
-                document.body.classList.add("font-amiri");
-            }
-        }
+    // تطبيق الثيم
+    if (theme === "light") document.body.classList.add("theme-light");
+    
+    // تطبيق الخط
+    if (font === "system") document.body.classList.add("font-system");
+    else if (font === "amiri") document.body.classList.add("font-amiri");
 
-        function loadAppearanceSettings() {
-            let saved = null;
-            try {
-                saved = JSON.parse(localStorage.getItem(APPEARANCE_STORAGE_KEY));
-            } catch(e) { saved = null; }
+    // تطبيق حجم الخط (الجديد)
+    if (fontSize) {
+        document.documentElement.style.setProperty('--global-font-size', fontSize);
+    }
+}
 
-            const theme = (saved && saved.theme) ? saved.theme : "dark";
-            const font = (saved && saved.font) ? saved.font : "default";
+function loadAppearanceSettings() {
+    let saved = null;
+    try {
+        saved = JSON.parse(localStorage.getItem(APPEARANCE_STORAGE_KEY));
+    } catch(e) { saved = null; }
 
-            applyAppearanceSettings(theme, font);
+    const theme = (saved && saved.theme) ? saved.theme : "dark";
+    const font = (saved && saved.font) ? saved.font : "default";
+    const fontSize = (saved && saved.fontSize) ? saved.fontSize : "1.2rem"; // افتراضي 1.2rem
 
-            // مزامنة قيم القوائم المنسدلة في صفحة الإعدادات مع القيم المحفوظة
-            const themeSelect = document.getElementById("setting-app-theme");
-            const fontSelect = document.getElementById("setting-app-font");
-            if (themeSelect) themeSelect.value = theme;
-            if (fontSelect) fontSelect.value = font;
-        }
+    applyAppearanceSettings(theme, font, fontSize);
 
-        function saveAppearanceSettings() {
-            const theme = document.getElementById("setting-app-theme").value;
-            const font = document.getElementById("setting-app-font").value;
+    // مزامنة القوائم
+    const themeSelect = document.getElementById("setting-app-theme");
+    const fontSelect = document.getElementById("setting-app-font");
+    const sizeSelect = document.getElementById("setting-font-size"); // الجديدة
 
-            applyAppearanceSettings(theme, font);
+    if (themeSelect) themeSelect.value = theme;
+    if (fontSelect) fontSelect.value = font;
+    if (sizeSelect) sizeSelect.value = fontSize;
+}
 
-            try {
-                localStorage.setItem(APPEARANCE_STORAGE_KEY, JSON.stringify({ theme: theme, font: font }));
-                alert("✅ تم حفظ إعدادات المظهر والخط بنجاح على هذا الجهاز!");
-            } catch(e) {
-                alert("⚠️ تم تطبيق المظهر، ولكن تعذّر حفظه بشكل دائم على هذا الجهاز.");
-            }
-        }
+function saveAppearanceSettings() {
+    const theme = document.getElementById("setting-app-theme").value;
+    const font = document.getElementById("setting-app-font").value;
+    const fontSize = document.getElementById("setting-font-size").value; // الجديدة
+
+    applyAppearanceSettings(theme, font, fontSize);
+
+    try {
+        localStorage.setItem(APPEARANCE_STORAGE_KEY, JSON.stringify({ 
+            theme: theme, 
+            font: font, 
+            fontSize: fontSize // الحفظ
+        }));
+        alert("✅ تم حفظ إعدادات المظهر والخط بنجاح على هذا الجهاز!");
+    } catch(e) {
+        alert("⚠️ تم تطبيق المظهر، ولكن تعذّر حفظه بشكل دائم.");
+    }
+}
 
         function triggerGoogleAuthentication() {
             const provider = new firebase.auth.GoogleAuthProvider();
@@ -1633,24 +1667,36 @@ function executeDeleteChapter(event, novelId, chapterId) {
 }
 
         function triggerNovelCoverSelection() { document.getElementById("novel-cover-file-hidden").click(); }
-        function handleNovelCoverSelected(input) {
-            if(input.files && input.files[0]) {
-                const file = input.files[0];
-                if(file.size > 5 * 1024 * 1024) {
-                    alert("⚠️ حجم غلاف الصورة كبير جداً! اختر غلافاً أقل من 5 ميجابايت.");
-                    input.value="";
-                    return;
-                }
-                document.getElementById("cover-upload-spinner").style.display = "flex";
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    temporalNovelCoverBase64 = e.target.result;
-                    document.getElementById("novel-cover-preview-box").innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">`;
-                    document.getElementById("cover-upload-spinner").style.display = "none";
-                };
-                reader.readAsDataURL(file);
-            }
+async function handleNovelCoverSelected(input) {
+    if (input.files && input.files[0]) {
+        let file = input.files[0];
+        
+        // التحقق من الحجم
+        if (file.size > 10 * 1024 * 1024) {
+            alert("⚠️ الصورة كبيرة جداً!");
+            input.value = "";
+            return;
         }
+
+        document.getElementById("cover-upload-spinner").style.display = "flex";
+
+        try {
+            // عملية الضغط الذكي (نضغط لـ 1 ميجابايت كحد أقصى)
+            const compressedFile = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 1920 });
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                temporalNovelCoverBase64 = e.target.result;
+                document.getElementById("novel-cover-preview-box").innerHTML = `<img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover; border-radius:10px;">`;
+                document.getElementById("cover-upload-spinner").style.display = "none";
+            };
+            reader.readAsDataURL(compressedFile);
+        } catch (error) {
+            console.error(error);
+            document.getElementById("cover-upload-spinner").style.display = "none";
+        }
+    }
+}
 
 // مصفوفة عالمية مؤقتة لتخزين التصنيفات التي يختارها الكاتب في الواجهة حالياً
 let selectedNovelCategoriesBuffer = [];
@@ -1785,63 +1831,55 @@ function executeSaveNewNovelToCloud() {
             document.getElementById("chapter-chars-counter").innerText = `${currentLength.toLocaleString()} / 30,000 حرف`;
         }
 
-        async function executeSaveNewChapterToCloud() {
-            const targetNovelId = document.getElementById("create-chapter-novel-dropdown").value;
-            const title = document.getElementById("create-chapter-title").value.trim();
-            const body = document.getElementById("create-chapter-body").value.trim();
-            const imgInput = document.getElementById("create-chapter-images-input");
-            if(!targetNovelId) { alert("الرجاء اختيار الرواية أولاً!"); return; }
-            if(!title || !body) { alert("اكتب عنوان الفصل ومحتوى السرد الأدبي أولاً!"); return; }
-            if(!activeUserSession) { alert("يرجى تسجيل الدخول أولاً لنشر الفصل!"); return; }
-            if(imgInput.files.length > 4) { alert("تنبيه: الحد الأقصى للمشاهد المرفقة بالفصل هو 4 صور فقط!"); return; }
-            
-            document.getElementById("chapter-upload-spinner").style.display = "flex";
-            let imgUrls = [];
-            for (let i = 0; i < imgInput.files.length; i++) {
-                const file = imgInput.files[i];
-                const ref = storage.ref(`chapters/${targetNovelId}/${Date.now()}_${file.name}`);
-                try {
-                    const snap = await ref.put(file);
-                    const url = await snap.ref.getDownloadURL();
-                    imgUrls.push(url);
-                } catch(err) { console.error("خطأ في رفع الصورة:", err); }
-            }
-            
-            const chapterData = {
-                title: title,
-                body: body,
-                images: imgUrls,
-                createdAt: Date.now(),
-                authorId: activeUserSession.uid
-            };
+async function executeSaveNewChapterToCloud() {
+    const targetNovelId = document.getElementById("create-chapter-novel-dropdown").value;
+    const title = document.getElementById("create-chapter-title").value.trim();
+    const body = document.getElementById("create-chapter-body").value.trim();
+    
+    if (!targetNovelId) { alert("الرجاء اختيار الرواية أولاً!"); return; }
+    if (!title || !body) { alert("اكتب عنوان الفصل ومحتوى السرد الأدبي أولاً!"); return; }
+    if (!activeUserSession) { alert("يرجى تسجيل الدخول أولاً لنشر الفصل!"); return; }
+    
+    document.getElementById("chapter-upload-spinner").style.display = "flex";
+    
+    const chapterData = {
+        title: title,
+        body: body,
+        images: [],
+        createdAt: Date.now(),
+        authorId: activeUserSession.uid
+    };
 
-            try {
-                await db.collection("Novels").doc(targetNovelId).collection("Chapters").add(chapterData);
-                try {
-                    await db.collection("Novels").doc(targetNovelId).update({
-                        chaptersCount: firebase.firestore.FieldValue.increment(1)
-                    });
-                } catch(e) { console.warn("تحديث عداد الفصول فشل:", e); }
-                document.getElementById("chapter-upload-spinner").style.display = "none";
-                alert("تم نشر وتعميد الفصل الجديد والمشاهد التوضيحية بنجاح سحابياً! ");
-                document.getElementById("create-chapter-title").value = "";
-                document.getElementById("create-chapter-body").value = "";
-                imgInput.value = "";
-                // إعادة تعيين قفل التحميل لإجبار تحديث قائمة الفصول بعد إضافة فصل جديد
-                _chaptersLoadingNovelId = null;
-                currentSelectedNovelId = null;
-                invalidateChaptersCache(targetNovelId); // مسح الكاش ليتم تحديثه عند الفتح
-                openNovelDetailedReaderPage(targetNovelId);
-            } catch(err) {
-                document.getElementById("chapter-upload-spinner").style.display = "none";
-                console.error("فشل حفظ الفصل:", err);
-                if (err.code === "permission-denied") {
-                    alert("❌ خطأ في الصلاحيات: تأكد أن قواعد Firestore تسمح لك بالكتابة، أو أنك مالك هذه الرواية.");
-                } else {
-                    alert("❌ فشل حفظ الفصل: " + err.message);
-                }
-            }
+    try {
+        await db.collection("Novels").doc(targetNovelId).collection("Chapters").add(chapterData);
+        
+        try {
+            await db.collection("Novels").doc(targetNovelId).update({
+                chaptersCount: firebase.firestore.FieldValue.increment(1)
+            });
+        } catch (e) { console.warn("تحديث عداد الفصول فشل:", e); }
+        
+        document.getElementById("chapter-upload-spinner").style.display = "none";
+        alert("تم نشر وتعميد الفصل الجديد بنجاح سحابياً!");
+        
+        document.getElementById("create-chapter-title").value = "";
+        document.getElementById("create-chapter-body").value = "";
+        
+        _chaptersLoadingNovelId = null;
+        currentSelectedNovelId = null;
+        invalidateChaptersCache(targetNovelId);
+        openNovelDetailedReaderPage(targetNovelId);
+        
+    } catch (err) {
+        document.getElementById("chapter-upload-spinner").style.display = "none";
+        console.error("فشل حفظ الفصل:", err);
+        if (err.code === "permission-denied") {
+            alert("❌ خطأ في الصلاحيات: تأكد أن قواعد Firestore تسمح لك بالكتابة.");
+        } else {
+            alert("❌ فشل حفظ الفصل: " + err.message);
         }
+    }
+}
 
         function openNovelDetailedReaderPage(novelId) {
             const isSameNovel = (currentSelectedNovelId === novelId);
@@ -1918,17 +1956,15 @@ function submitNovelGlobalRatingVote(score) {
         let _textLoadingChapterId = null;
 
 // =========================================================================
-// دالة فتح وعرض تفاصيل الرواية - تجلب البيانات مباشرة وسحابياً من Firestore
+// دالة فتح وعرض تفاصيل الرواية - المعتمدة على السيرفر (النسخة الأولى)
 // =========================================================================
 function openNovelDetailedReaderPage(novelId) {
     currentSelectedNovelId = novelId;
     navigateAppView("view-novel-details");
 
-    // إظهار مؤشر تحميل صغير داخل حاوية التصنيفات لحين وصول البيانات
     const genresBox = document.getElementById("det-novel-categories-box");
     if (genresBox) genresBox.innerHTML = "<span style='color:gray; font-size:0.8rem;'>جاري تحميل التصنيفات...</span>";
 
-    // 🌐 الاتصال المباشر بقاعدة البيانات السحابية للحصول على البيانات المحدثة فوراً
     db.collection("Novels").doc(novelId).get()
     .then(doc => {
         if (!doc.exists) {
@@ -1936,13 +1972,26 @@ function openNovelDetailedReaderPage(novelId) {
             return;
         }
 
-        // استخراج بيانات الرواية الطازجة من السيرفر
         const novel = doc.data();
         currentNovelAuthorId = novel.authorId;
 
-        // 1. ضخ البيانات الأساسية للرواية في واجهة HTML
+        // ضخ البيانات الأساسية
         document.getElementById("det-novel-title").innerText = novel.title || "بدون عنوان";
         document.getElementById("det-novel-author").innerText = "بقلم الكاتب الأدبي: " + (novel.authorName || "كاتب مجهول");
+        
+        // --- إضافة التاريخ هنا ---
+        const dateElement = document.getElementById("det-novel-date");
+        if (dateElement) {
+            if (novel.createdAt) {
+                const date = new Date(novel.createdAt);
+                const formattedDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} - ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+                dateElement.innerText = " تاريخ النشر: " + formattedDate;
+            } else {
+                dateElement.innerText = " تاريخ النشر: غير محدد";
+            }
+        }
+        // -------------------------
+
         document.getElementById("det-novel-desc").innerText = novel.description || "";
         
         const globalRating = novel.ratingCount > 0 ? (novel.ratingSum / novel.ratingCount).toFixed(1) : "0.0";
@@ -1950,24 +1999,18 @@ function openNovelDetailedReaderPage(novelId) {
         
         buildStarsBarIndicator(Math.round(globalRating));
 
-        // 2. معالجة وضخ مصفوفة التصنيفات الحقيقية المحدثة (genres)
+        // معالجة التصنيفات
         if (genresBox) {
-            genresBox.innerHTML = ""; // تنظيف رسالة جاري التحميل
-            
+            genresBox.innerHTML = ""; 
             const currentGenres = novel.genres || [];
-
             if (currentGenres.length === 0) {
                 genresBox.innerHTML = "<span style='color:gray; font-size:0.8rem;'>عام</span>";
             } else {
-                // تكرار على التصنيفات القادمة من الفايربيز وبناء الرقاقات ديناميكياً
                 currentGenres.forEach(genre => {
                     const badge = document.createElement("span");
-                    badge.className = "chip"; // كلاس التصميم الموحد لموقعك
+                    badge.className = "chip";
                     badge.innerText = genre;
-                    
-                    // التنسيق البصري المتناسق مع الهوية الذهبية للمنصة
                     badge.style.cssText = "display: inline-block; background: rgba(255,183,3,0.1); color: var(--accent-gold-neon, #ffb703); padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; border: 1px solid rgba(255,183,3,0.3); pointer-events: none;";
-                    
                     genresBox.appendChild(badge);
                 });
             }
@@ -1978,7 +2021,6 @@ function openNovelDetailedReaderPage(novelId) {
         if (genresBox) genresBox.innerHTML = "<span style='color:red; font-size:0.8rem;'>فشل تحميل التصنيفات</span>";
     });
 
-    // 3. استدعاء فصول الرواية والتعليقات من المجموعات الفرعية سحابياً
     loadNovelChaptersListSubcollection(novelId);
     loadNovelCommentsSubcollection(novelId);
 }
@@ -2072,45 +2114,58 @@ async function loadNovelChaptersListSubcollection(novelId) {
             console.log("♻️ تم عمل ريست كامل لنظام تحميل الفصول بنجاح.");
         }
 
-        // 4. دالة بناء قائمة الفصول (الفهرس) في واجهة المستخدم - المحدثة بالشارات الذكية
-        function renderChaptersList(novelId, chapters) {
-            const box = document.getElementById("det-chapters-list-box");
-            box.innerHTML = "";
-            
-            const fragment = document.createDocumentFragment();
-            chapters.forEach((ch, index) => {
-                const row = document.createElement("div");
-                row.style = "display:flex; align-items:center; gap:6px;";
-                
-                // 🌟 [الفحص الذكي لكل فصل داخل الحلقة]:
-                // نمرر حقل التاريخ التابع للفصل (المخزن في السيرفر بـ createdAt أو تاريخ مخصص) ليرى هل يستحق الشارة
+function renderChaptersList(novelId, chapters) {
+    const box = document.getElementById("det-chapters-list-box");
+    box.innerHTML = "";
+    
+    const fragment = document.createDocumentFragment();
+    chapters.forEach((ch, index) => {
+        const row = document.createElement("div");
+        row.style = "display:flex; align-items:center; gap:6px;";
+        
+        // 1. معالجة التاريخ (إضافة جديدة)
+        let formattedDate = "";
+        if (ch.createdAt) {
+            const date = new Date(ch.createdAt);
+            formattedDate = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+        }
 
-// 🌟 التعديل المباشر: وسم "جديد" بستايل داخلي يستفيد من متغيرات النيون والخطوط الحالية بالكامل
-const isChapterNew = checkBadgeVisibilityStatus(ch.id, ch.createdAt, "read_chapters_list");
-const chapterBadgeHtml = isChapterNew ? `<span style="color: var(--accent-gold-neon); text-shadow: var(--shadow-gold-neon); font-family: inherit; font-size: 0.78rem; font-weight: bold; margin-right: 8px; margin-left: 8px; display: inline-block;">جديد</span>` : '';
+        const isChapterNew = checkBadgeVisibilityStatus(ch.id, ch.createdAt, "read_chapters_list");
+        
+        // 2. تصميم التاريخ باللون الذهبي النيون
+        const dateHtml = `<span style="color: var(--accent-gold-neon); font-size: 0.7rem; font-weight: bold; margin-left: 8px;">${formattedDate}</span>`;
+        const chapterBadgeHtml = isChapterNew ? `<span style="color: var(--accent-gold-neon); text-shadow: var(--shadow-gold-neon); font-family: inherit; font-size: 0.78rem; font-weight: bold; margin-right: 8px; display: inline-block;">جديد</span>` : '';
 
-                const btn = document.createElement("button");
-                btn.className = "input-element";
-                // أضفنا سطر الفليكس بالأسفل لكي تظهر الشارة أقصى اليسار ويكون العنوان أقصى اليمين بشكل متناسق
-                btn.style = "text-align:right; margin-bottom:5px; cursor:pointer; background:rgba(255,183,3,0.02); font-weight:700; border-color:rgba(255,183,3,0.15); flex:1; display:flex; align-items:center; justify-content:space-between;";
-                
-                // ضخ نص العنوان ومعه وسم الشارة في نهاية الزر
-                btn.innerHTML = `<span>${ch.title}</span> ${chapterBadgeHtml}`;
-                btn.onclick = () => openIsolatedReaderPageLayout(index);
-                
-                row.appendChild(btn);
+        const btn = document.createElement("button");
+        btn.className = "input-element";
+        // لاحظ أننا حافظنا على justify-content: space-between
+        btn.style = "text-align:right; margin-bottom:5px; cursor:pointer; background:rgba(255,183,3,0.02); font-weight:700; border-color:rgba(255,183,3,0.15); flex:1; display:flex; align-items:center; justify-content:space-between;";
+        
+        // 3. ضخ العنوان + التاريخ + الشارة
+        // سنضع التاريخ والشارة في حاوية واحدة لضمان بقائهما في الطرف الأيسر
+        btn.innerHTML = `
+            <span>${ch.title}</span> 
+            <span style="display:flex; align-items:center;">
+                ${dateHtml}
+                ${chapterBadgeHtml}
+            </span>
+        `;
+        btn.onclick = () => openIsolatedReaderPageLayout(index);
+        
+        row.appendChild(btn);
 
-                if (activeUserSession && activeUserSession.uid === currentNovelAuthorId) {
-                    const delBtn = document.createElement("button");
-                    delBtn.style = "background: rgba(255, 61, 0, 0.9); color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; margin-bottom: 5px; white-space: nowrap; height: fit-content;";
-                    delBtn.innerText = "🗑️ حذف";
-                    delBtn.onclick = (e) => executeDeleteChapter(e, novelId, ch.id);
-                    row.appendChild(delBtn);
-                }
-                fragment.appendChild(row);
-            });
-            box.appendChild(fragment);
-        }    
+        // زر الحذف (يظهر للكاتب فقط)
+        if (activeUserSession && activeUserSession.uid === currentNovelAuthorId) {
+            const delBtn = document.createElement("button");
+            delBtn.style = "background: rgba(255, 61, 0, 0.9); color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 10px; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; margin-bottom: 5px; white-space: nowrap; height: fit-content;";
+            delBtn.innerText = "🗑️ حذف";
+            delBtn.onclick = (e) => executeDeleteChapter(e, novelId, ch.id);
+            row.appendChild(delBtn);
+        }
+        fragment.appendChild(row);
+    });
+    box.appendChild(fragment);
+}
 
 async function openIsolatedReaderPageLayout(chapterIndex) {
     globalCurrentChapterIndex = chapterIndex;
@@ -2312,7 +2367,7 @@ function submitIsolatedChapterRatingVote(stars) {
         function handleChatImageSelected(input) {
             if(input.files && input.files[0] && activeUserSession) {
                 const file = input.files[0];
-                if(file.size > 4 * 1024 * 1024) { alert("⚠️ الملف كبير! اختر صورة أقل من 4 ميجابايت."); return; }
+                if(file.size > 10 * 1024 * 1024) { alert("⚠️ الملف كبير! اختر صورة أقل من 10 ميجابايت."); return; }
                 
                 document.getElementById("chat-upload-spinner").style.display = "flex";
                 const ref = storage.ref(`chat_shared/${Date.now()}_${activeUserSession.uid}`);
@@ -2356,26 +2411,33 @@ function submitIsolatedChapterRatingVote(stars) {
         }
 
         function triggerAvatarUpdate() { document.getElementById("avatar-file-hidden").click(); }
-        async function executeAvatarUpload(input) {
-            if(input.files && input.files[0] && activeUserSession) {
-                const file = input.files[0];
-                if(file.size > 4 * 1024 * 1024) { alert("⚠️ اختر صورة أقل من 4 ميجابايت."); return; }
-                
-                document.getElementById("avatar-upload-spinner").style.display = "flex";
-                const ref = storage.ref(`avatars/${activeUserSession.uid}`);
-                try {
-                    await ref.put(file);
-                    const url = await ref.getDownloadURL();
-                    await activeUserSession.updateProfile({ photoURL: url });
-                    document.getElementById("profile-user-avatar").src = url;
-                    document.getElementById("avatar-upload-spinner").style.display = "none";
-                    alert("تم تعديل وصعود صورتك الشخصية بنجاح! ");
-                } catch(e) { 
-                    document.getElementById("avatar-upload-spinner").style.display = "none";
-                    alert("فشل الرفع سحابياً."); 
-                }
-            }
+async function executeAvatarUpload(input) {
+    if (input.files && input.files[0] && activeUserSession) {
+        let file = input.files[0];
+        document.getElementById("avatar-upload-spinner").style.display = "flex";
+        
+        try {
+            // 1. الضغط الذكي
+            const compressedFile = await imageCompression(file, { maxSizeMB: 0.5, maxWidthOrHeight: 500 });
+            
+            // 2. الرفع إلى Firebase
+            const ref = storage.ref(`avatars/${activeUserSession.uid}`);
+            await ref.put(compressedFile);
+            
+            // 3. التحديث
+            const url = await ref.getDownloadURL();
+            await activeUserSession.updateProfile({ photoURL: url });
+            
+            document.getElementById("profile-user-avatar").src = url;
+            alert("تم تحديث صورتك بنجاح وبحجم مثالي! ✨");
+        } catch (e) {
+            alert("فشل الرفع سحابياً، حاول مجدداً.");
+        } finally {
+            document.getElementById("avatar-upload-spinner").style.display = "none";
         }
+    }
+}
+
         // ملاحظة: دالتا triggerGoogleAuthentication و triggerUserLogout معرّفتان أعلاه
         // 🌟 دالة المستكشف السري: تحميل الفصل القادم بصمت في الخلفية
 async function prefetchNextChapter(novelId, nextChapterNumber) {
@@ -2974,6 +3036,40 @@ window.addEventListener("hashchange", () => {
         setTimeout(scrollChatToBottom, 150);
     }
 });
+
+async function compressAndUpload(file, storagePath) {
+    // 1. إعدادات الضغط (نستهدف 1 ميجابايت كحد أقصى للصورة)
+    const options = {
+        maxSizeMB: 1, 
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+    };
+
+    try {
+        // 2. عملية الضغط (هنا السحر يحدث!)
+        const compressedFile = await imageCompression(file, options);
+        
+// حساب الأحجام بالميجابايت
+const originalSizeMB = (file.size / 1024 / 1024).toFixed(2);
+const newSizeMB = (compressedFile.size / 1024 / 1024).toFixed(2);
+const reduction = Math.round((1 - compressedFile.size / file.size) * 100);
+
+// عرض رسالة مفصلة
+document.getElementById("status-box").innerText = 
+    `تم ضغط الصورة بنجاح! ${originalSizeMB}MB -> ${newSizeMB}MB (توفير ${reduction}%)`;
+    
+        
+        // 3. الرفع لـ Firebase بالملف المضغوط
+        const storageRef = firebase.storage().ref(storagePath);
+        const snapshot = await storageRef.put(compressedFile);
+        return await snapshot.ref.getDownloadURL();
+        
+    } catch (error) {
+        console.error("خطأ في الضغط أو الرفع:", error);
+        throw error;
+    }
+}
+
 
     </script>
 </body>
